@@ -11,6 +11,7 @@ import {
 } from 'rxjs';
 import { environment } from '../../enviroments/enviroment';
 import { AuthResponse } from '../model/auth-response.model';
+import { User } from '../model/user.data.model';
 
 @Injectable({
   providedIn: 'root',
@@ -19,15 +20,41 @@ export class AuthService {
   baseUrl = environment.apiUrl + '/auth';
 
   readonly TOKEN_KEY = 'token';
+  readonly USER_DATA_KEY = 'userData';
   private isAuthenticatedUserSubject = new BehaviorSubject<boolean>(false);
   isAuthenticatedUserSubject$ = this.isAuthenticatedUserSubject.asObservable();
 
   constructor(public httpClient: HttpClient, public router: Router) {}
 
   public login(email: string, password: string): Observable<AuthResponse> {
-    return this.httpClient.post<AuthResponse>(`${this.baseUrl}/login`, {
-      email,
-      password,
-    });
+    return this.httpClient
+      .post<AuthResponse>(`${this.baseUrl}/login`, {
+        email,
+        password,
+      })
+      .pipe(
+        tap((user) => {
+          if (user) {
+            localStorage.setItem(this.TOKEN_KEY, user.verificationToken);
+            localStorage.setItem(this.USER_DATA_KEY, JSON.stringify(user.user));
+            this.isAuthenticatedUserSubject.next(true);
+          }
+        })
+      );
+  }
+  public register(user: User): Observable<User> {
+    const body = {
+      username: user.username,
+      email: user.email,
+      password: user.password,
+      role: user.role,
+    };
+    return this.httpClient.post<User>(`${this.baseUrl}/register`, body);
+  }
+  public isUserAuthenticated(): boolean {
+    return (
+      this.isAuthenticatedUserSubject.value ||
+      !!localStorage.getItem(this.TOKEN_KEY)
+    );
   }
 }

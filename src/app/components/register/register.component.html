@@ -1,1 +1,51 @@
-<p>register works!</p>
+<mat-card>
+  <mat-card-header>
+    <img class="logo" src="logo.svg" alt="logo" />
+    <h1>Sign Up</h1>
+    <h3>Welcome!</h3>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="registerForm">
+      <mat-form-field color="accent">
+        <mat-label>Enter your email</mat-label>
+        <input
+          matInput
+          placeholder="pat@example.com"
+          required
+          formControlName="email"
+        />
+      </mat-form-field>
+
+      <mat-form-field color="accent">
+        <mat-label>Enter your user name</mat-label>
+        <input
+          matInput
+          placeholder="pat@example.com"
+          required
+          formControlName="username"
+        />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Enter your password</mat-label>
+        <input matInput formControlName="password" />
+      </mat-form-field>
+
+      <mat-radio-group formControlName="role" aria-label="Select role">
+        <mat-radio-button value="teacher">Teacher</mat-radio-button>
+        <mat-radio-button value="student">Student</mat-radio-button>
+      </mat-radio-group>
+
+      @if (errorMessage) {
+      <mat-error>{{ errorMessage }}</mat-error>
+      }
+      <div class="login-btn btn">
+        <button mat-raised-button extended (click)="register()">Sign Up</button>
+      </div>
+    </form>
+  </mat-card-content>
+  <div class="switch">
+    <span>Already have an account?</span>
+    <a routerLink="" routerLinkActive="active">Login</a>
+  </div>
+</mat-card>
