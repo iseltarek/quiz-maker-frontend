@@ -38,8 +38,7 @@ export class LoginComponent {
         this.loginForm.value.password as string
       )
       .subscribe({
-        next: (repos) => {
-          console.log(repos);
+        next: () => {
           // this.router.navigate(['/home']);
           this.loginForm.reset();
         },
