@@ -63,4 +63,10 @@ export class AuthService {
       !!localStorage.getItem(this.TOKEN_KEY)
     );
   }
+  public getUserId(): number | null {
+    const userString = localStorage.getItem(this.USER_DATA_KEY);
+    if (!userString) return null;
+    const user = JSON.parse(userString);
+    return user.id;
+  }
 }
