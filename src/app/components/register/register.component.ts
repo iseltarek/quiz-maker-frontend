@@ -34,6 +34,8 @@ export class RegisterComponent {
   }
 
   register() {
+    if (this.registerForm.invalid) return;
+
     const userform: User = {
       email: this.registerForm.value.email,
       password: this.registerForm.value.password,
