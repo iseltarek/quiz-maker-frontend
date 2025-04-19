@@ -32,6 +32,7 @@ export class LoginComponent {
   }
 
   login() {
+    if (this.loginForm.invalid) return;
     this.authService
       .login(
         this.loginForm.value.email as string,
@@ -39,8 +40,8 @@ export class LoginComponent {
       )
       .subscribe({
         next: () => {
-          // this.router.navigate(['/home']);
           this.loginForm.reset();
+          this.router.navigate(['/home']);
         },
         error: (err) => {
           this.errorMessage = err.error.message;

@@ -6,8 +6,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatRadioModule } from '@angular/material/radio';
-// List all Angular Material modules here
+import { MatGridListModule } from '@angular/material/grid-list';
+
 const MATERIAL_MODULES = [
+  MatGridListModule,
   MatButtonModule,
   MatInputModule,
   MatCardModule,

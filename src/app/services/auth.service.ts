@@ -51,6 +51,12 @@ export class AuthService {
     };
     return this.httpClient.post<User>(`${this.baseUrl}/register`, body);
   }
+
+  public logout() {
+    localStorage.removeItem(this.TOKEN_KEY);
+    localStorage.removeItem(this.USER_DATA_KEY);
+    this.isAuthenticatedUserSubject.next(false);
+  }
   public isUserAuthenticated(): boolean {
     return (
       this.isAuthenticatedUserSubject.value ||
