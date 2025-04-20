@@ -26,8 +26,8 @@ export class TeacherService {
     );
   }
 
-  public createQuiz(quizRequest: QuizRequest): Observable<QuizRequest> {
-    return this.httpClient.post<QuizRequest>(
+  public createQuiz(quizRequest: QuizRequest): Observable<QuizResponse> {
+    return this.httpClient.post<QuizResponse>(
       `${this.baseUrl}/${this.teacherId}/quiz`,
       quizRequest,
       {
@@ -50,8 +50,11 @@ export class TeacherService {
 
   public createManyQuestion(
     questions: QuestionRequest[]
-  ): Observable<QuestionRequest[]> {
-    return this.httpClient.post<QuestionRequest[]>(
+  ): Observable<number[]> {
+    if (!questions || questions.length === 0) {
+      throw new Error('Questions array cannot be empty');
+    }
+    return this.httpClient.post<number[]>(
       `${this.baseUrl}/${this.teacherId}/question/bulk`,
       questions,
       {

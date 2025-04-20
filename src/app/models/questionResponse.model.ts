@@ -1,17 +1,14 @@
+import { QuestionType } from './question-type.enum';
+
 export interface QuestionResponse {
   id: number;
   text: string;
   type: QuestionType;
-  options: QuestionOption[];
-}
-
-export enum QuestionType {
-  MULTIPLE_CHOICE = 'multiple_choice',
-  CHECKBOX = 'checkbox',
-  TEXT = 'text',
+  options: QuestionOption[] | null;
 }
 
 export interface QuestionOption {
-  id: string;
+  is_correct: boolean;
   text: string;
 }
+export { QuestionType };
