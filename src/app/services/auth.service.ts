@@ -18,7 +18,6 @@ import { User } from '../models/user.data.model';
 })
 export class AuthService {
   baseUrl = environment.apiUrl + '/auth';
-
   readonly TOKEN_KEY = 'token';
   readonly USER_DATA_KEY = 'userData';
   private isAuthenticatedUserSubject = new BehaviorSubject<boolean>(false);
