@@ -5,17 +5,27 @@ import { QuizResponse } from '../models/quizResponse.model';
   providedIn: 'root',
 })
 export class QuizStoreService {
-  private _quizzes = signal<QuizResponse[]>([]);
-  quizzes = this._quizzes.asReadonly();
+  private _teacherQuizzes = signal<QuizResponse[]>([]);
+  teacherQuizzes = this._teacherQuizzes.asReadonly();
+  private _allQuizzes = signal<QuizResponse[]>([]);
+  allQuizzes = this._allQuizzes.asReadonly();
 
-  public setQuizzes(quizzes: QuizResponse[]): void {
-    this._quizzes.set(quizzes);
+  public setTeacherQuizzes(quizzes: QuizResponse[]): void {
+    this._teacherQuizzes.set(quizzes);
   }
-  public addQuiz(quiz: QuizResponse) {
-    this._quizzes.update((quizz) => [...quizz, quiz]);
+  public addTeacherQuiz(quiz: QuizResponse) {
+    this._teacherQuizzes.update((quizz) => [...quizz, quiz]);
   }
 
-  public resetQuizzes() {
-    this._quizzes.set([]);
+  public resetTeacherQuizzes() {
+    this._teacherQuizzes.set([]);
+  }
+
+  public setAllQuizzes(quizzes: QuizResponse[]): void {
+    this._allQuizzes.set(quizzes);
+  }
+
+  public resetAllQuizzes() {
+    this._allQuizzes.set([]);
   }
 }

@@ -68,4 +68,10 @@ export class AuthService {
     const user = JSON.parse(userString);
     return user.id;
   }
+  public getUserRole() {
+    const userString = localStorage.getItem(this.USER_DATA_KEY);
+    if (!userString) return null;
+    const user = JSON.parse(userString);
+    return user.role;
+  }
 }

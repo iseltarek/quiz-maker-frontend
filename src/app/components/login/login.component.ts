@@ -41,7 +41,10 @@ export class LoginComponent {
       .subscribe({
         next: () => {
           this.loginForm.reset();
-          this.router.navigate(['/home']);
+          console.log(this.authService.getUserRole());
+          if (this.authService.getUserRole() === 'teacher')
+            this.router.navigate(['/home/teacher']);
+          else this.router.navigate(['/home/student']);
         },
         error: (err) => {
           this.errorMessage = err.error.message;

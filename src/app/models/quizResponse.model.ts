@@ -8,4 +8,5 @@ export interface QuizResponse {
   createdAt: Date;
   isPublished: boolean;
   deletedAt: Date;
+  questions?: QuestionResponse[];
 }
