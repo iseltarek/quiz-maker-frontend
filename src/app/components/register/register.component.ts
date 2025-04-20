@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { User } from '../../model/user.data.model';
+import { User } from '../../models/user.data.model';
 
 @Component({
   selector: 'app-register',

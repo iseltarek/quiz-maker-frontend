@@ -10,8 +10,8 @@ import {
   throwError,
 } from 'rxjs';
 import { environment } from '../../enviroments/enviroment';
-import { AuthResponse } from '../model/auth-response.model';
-import { User } from '../model/user.data.model';
+import { AuthResponse } from '../models/auth-response.model';
+import { User } from '../models/user.data.model';
 
 @Injectable({
   providedIn: 'root',

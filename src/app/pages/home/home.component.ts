@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { SharedMaterialModule } from '../../modules/shared-material.module';
 import { TeacherComponent } from '../../components/teacher/teacher.component';
 import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -10,8 +11,9 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './home.component.css',
 })
 export class HomeComponent {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
   logout() {
+    this.router.navigate(['/']);
     this.authService.logout();
   }
 }

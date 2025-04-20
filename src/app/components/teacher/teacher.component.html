@@ -8,5 +8,24 @@
       </ul>
     </div>
   </div>
-  <div class="content"></div>
+  <div class="content">
+    @if(IsCreateQuiz()){
+    <app-create-quiz (IsCreateQuiz)="IsCreateQuiz.set(false)" />
+    } @else {
+    <div style="flex: 1; background: white; border-radius: 8px; padding: 20px">
+      <div style="text-align: center; margin-top: 50px; color: #888">
+        <svg
+          width="64"
+          height="64"
+          viewBox="0 0 24 24"
+          style="margin-bottom: 15px"
+        >
+          <path fill="#ccc" d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+        </svg>
+        <h2>Select a quiz or create a new one</h2>
+        <p>Click on a quiz in the sidebar to view details</p>
+      </div>
+    </div>
+    }
+  </div>
 </main>

@@ -11,6 +11,9 @@ export class QuizStoreService {
   public setQuizzes(quizzes: QuizResponse[]): void {
     this._quizzes.set(quizzes);
   }
+  public addQuiz(quiz: QuizResponse) {
+    this._quizzes.update((quizz) => [...quizz, quiz]);
+  }
 
   public resetQuizzes() {
     this._quizzes.set([]);
