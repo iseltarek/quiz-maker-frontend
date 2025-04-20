@@ -1,8 +1,7 @@
 <div class="content">
-  <ul class="tasks-grid">
-    <li
-      class="task-item"
-      *ngFor="let task of tasks(); trackBy: trackByCustomId"
-    ></li>
+  <ul class="quiz-grid">
+    <li class="quiz-item" *ngFor="let quiz of allQuizzes()">
+      <app-quiz [quiz]="quiz"></app-quiz>
+    </li>
   </ul>
 </div>

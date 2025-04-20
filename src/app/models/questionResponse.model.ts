@@ -11,3 +11,5 @@ export interface QuestionOption {
   is_correct: boolean;
   text: string;
 }
+
+export { QuestionType };

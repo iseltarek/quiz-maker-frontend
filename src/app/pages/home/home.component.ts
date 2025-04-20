@@ -11,7 +11,11 @@ import { Router, RouterOutlet } from '@angular/router';
   styleUrl: './home.component.css',
 })
 export class HomeComponent {
-  constructor(private authService: AuthService, private router: Router) {}
+  role: string | null = '';
+  constructor(private authService: AuthService, private router: Router) {
+    this.role = this.authService.getUserRole();
+  }
+
   logout() {
     this.router.navigate(['/']);
     this.authService.logout();
