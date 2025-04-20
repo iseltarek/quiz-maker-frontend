@@ -22,11 +22,11 @@ export class TeacherComponent {
     this.teacherService.getTeacherQuizzes().subscribe({
       next: (quiz) => {
         this.quizzes = quiz;
-        this.quizzesStoreService.setQuizzes(quiz);
+        this.quizzesStoreService.setTeacherQuizzes(quiz);
       },
     });
     effect(() => {
-      this.quizzes = this.quizzesStoreService.quizzes();
+      this.quizzes = this.quizzesStoreService.teacherQuizzes();
     });
   }
 
@@ -34,7 +34,7 @@ export class TeacherComponent {
     this.authnticationService.isAuthenticatedUserSubject$.subscribe({
       next: (isAuthenticated) => {
         if (!isAuthenticated) {
-          this.quizzesStoreService.resetQuizzes();
+          this.quizzesStoreService.resetTeacherQuizzes();
           this.IsCreateQuiz.set(false);
         }
       },

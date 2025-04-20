@@ -75,7 +75,7 @@ export class CreateQuizComponent {
         };
         this.teacherService.createQuiz(newQuiz).subscribe({
           next: (quizResponse) => {
-            this.quizStoreService.addQuiz(quizResponse);
+            this.quizStoreService.addTeacherQuiz(quizResponse);
             this.IsCreateQuiz.emit(false);
             this.questions = [];
             this.resetQuizForm();
