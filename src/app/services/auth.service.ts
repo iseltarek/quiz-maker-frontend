@@ -10,15 +10,14 @@ import {
   throwError,
 } from 'rxjs';
 import { environment } from '../../enviroments/enviroment';
-import { AuthResponse } from '../model/auth-response.model';
-import { User } from '../model/user.data.model';
+import { AuthResponse } from '../models/auth-response.model';
+import { User } from '../models/user.data.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   baseUrl = environment.apiUrl + '/auth';
-
   readonly TOKEN_KEY = 'token';
   readonly USER_DATA_KEY = 'userData';
   private isAuthenticatedUserSubject = new BehaviorSubject<boolean>(false);
@@ -62,5 +61,11 @@ export class AuthService {
       this.isAuthenticatedUserSubject.value ||
       !!localStorage.getItem(this.TOKEN_KEY)
     );
+  }
+  public getUserId(): number | null {
+    const userString = localStorage.getItem(this.USER_DATA_KEY);
+    if (!userString) return null;
+    const user = JSON.parse(userString);
+    return user.id;
   }
 }
