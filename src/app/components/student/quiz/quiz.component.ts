@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { SharedMaterialModule } from '../../../modules/shared-material.module';
 import { QuizService } from '../../../services/quiz.service';
 import { QuizResponse } from '../../../models/quizResponse.model';
@@ -12,6 +12,7 @@ import {
 } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { QuestionResponse } from '../../../models/questionResponse.model';
+import { AnswerResponse } from '../../../models/answerResponse.model';
 
 @Component({
   selector: 'app-quiz',
@@ -20,11 +21,16 @@ import { QuestionResponse } from '../../../models/questionResponse.model';
   styleUrl: './quiz.component.css',
 })
 export class QuizComponent implements OnInit {
-  @Input() quizId!: number;
   quiz!: QuizResponse;
   quizForm!: FormGroup;
   timeLeft!: number;
   isSubmitted = false;
+  answerResponse: AnswerResponse = {
+    score: 0,
+    passed: false,
+  };
+  @Input() quizId!: number;
+  @Output() isQuizClosed = new EventEmitter<boolean>();
   constructor(private quizService: QuizService, private fb: FormBuilder) {}
   ngOnInit(): void {
     if (this.quizId) {
@@ -36,6 +42,7 @@ export class QuizComponent implements OnInit {
         },
       });
     }
+    // document.addEventListener('keydown', this.preventScreenshot);
   }
   private initializeForm() {
     this.quizForm = this.fb.group({
@@ -79,9 +86,32 @@ export class QuizComponent implements OnInit {
 
   onSubmit() {
     if (this.quizForm.valid && !this.isSubmitted) {
-      this.isSubmitted = true;
-
       const answers = this.quizForm.value.answers;
+      this.quizService.submitQuiz(answers, this.quiz.id).subscribe({
+        next: (results) => {
+          this.answerResponse = results;
+          this.isSubmitted = true;
+        },
+      });
     }
   }
+
+  closeQuiz() {
+    this.isQuizClosed.emit(false);
+  }
+  // ngOnDestroy() {
+  //   document.removeEventListener('keydown', this.preventScreenshot);
+  // }
+  // private preventScreenshot(e: KeyboardEvent) {
+  //   if (
+  //     e.key === 'PrintScreen' ||
+  //     e.code === '44' ||
+  //     (e.ctrlKey && e.key === 'p') ||
+  //     (e.ctrlKey && e.shiftKey && e.key === 's')
+  //   ) {
+  //     e.preventDefault();
+  //     alert('do not try to take any kinds of screenshot of the content');
+  //     return false;
+  //   }
+  // }
 }

@@ -31,9 +31,8 @@ export class StudentComponent {
       this.allQuizzes.set(this.quizzesStoreService.allQuizzes());
     });
   }
-  handleQuizOpen(open: boolean) {
-    console.log('in student', this.quizId);
-    this.isQuizOpen.set(open);
+  handleQuiz(IsQuizOpen: boolean) {
+    this.isQuizOpen.set(IsQuizOpen);
   }
   handleQuizSelected(id: number) {
     this.quizId = id;

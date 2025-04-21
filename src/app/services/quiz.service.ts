@@ -5,6 +5,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { QuizResponse } from '../models/quizResponse.model';
+import { Answer } from '../models/answerRequest.model';
+import { AnswerResponse } from '../models/answerResponse.model';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +18,6 @@ export class QuizService {
   constructor(public httpClient: HttpClient, public router: Router) {}
 
   public getAllQuizzes(): Observable<QuizResponse[]> {
-    console.log(this.userId);
     return this.httpClient.get<QuizResponse[]>(
       `${this.baseUrl}/student/${this.userId}/quiz`,
       {
@@ -29,6 +30,20 @@ export class QuizService {
     return this.httpClient.get<QuizResponse>(`${this.baseUrl}/quiz/${quizId}`, {
       headers: this.getAuthHeader(),
     });
+  }
+
+  public submitQuiz(
+    answers: Answer[],
+    quizId: number
+  ): Observable<AnswerResponse> {
+    console.log(answers);
+    return this.httpClient.post<AnswerResponse>(
+      `${this.baseUrl}/student/${this.userId}/quiz/${quizId}/submit`,
+      answers,
+      {
+        headers: this.getAuthHeader(),
+      }
+    );
   }
 
   private getAuthHeader(): HttpHeaders {
