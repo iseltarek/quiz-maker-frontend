@@ -87,7 +87,7 @@ export class QuizComponent implements OnInit {
   }
 
   submitQuiz() {
-    if (this.quizForm.valid && !this.isSubmitted) {
+    if (!this.isSubmitted) {
       const answers = this.quizForm.value.answers;
       this.quizService.submitQuiz(answers, this.quiz.id).subscribe({
         next: (results) => {

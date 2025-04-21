@@ -21,12 +21,17 @@
 
   <mat-card-actions>
     <button
+      [disabled]="!quiz.isPublished"
       mat-raised-button
       color="primary"
       class="start-button"
       (click)="startQuiz()"
     >
-      Start Quiz
+      {{
+        quiz.isPublished
+          ? "Start Quiz"
+          : "Available at " + (quiz.startAt | date : "short")
+      }}
     </button>
   </mat-card-actions>
 </mat-card>

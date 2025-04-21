@@ -85,7 +85,6 @@ export class CreateQuizComponent {
       is_published: true,
       startAt: this.quiz.startAt,
     };
-    console.log(this.quiz.startAt);
 
     this.teacherService.createQuiz(newQuiz).subscribe({
       next: (quizResponse) => {

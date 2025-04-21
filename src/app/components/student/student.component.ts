@@ -1,4 +1,11 @@
-import { Component, effect, inject, Input, signal } from '@angular/core';
+import {
+  Component,
+  effect,
+  inject,
+  Input,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { QuizCardComponent } from './quizCard/quizCard.component';
 import { CommonModule } from '@angular/common';
 import { QuizResponse } from '../../models/quizResponse.model';
@@ -31,6 +38,7 @@ export class StudentComponent {
       this.allQuizzes.set(this.quizzesStoreService.allQuizzes());
     });
   }
+
   handleQuiz(IsQuizOpen: boolean) {
     this.isQuizOpen.set(IsQuizOpen);
   }
