@@ -8,6 +8,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+
 const MATERIAL_MODULES = [
   MatCheckboxModule,
   MatGridListModule,
@@ -18,6 +20,7 @@ const MATERIAL_MODULES = [
   MatToolbarModule,
   MatSnackBarModule,
   MatRadioModule,
+  MatDatepickerModule,
 ];
 
 @NgModule({

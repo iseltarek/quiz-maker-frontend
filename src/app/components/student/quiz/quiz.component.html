@@ -11,7 +11,7 @@
           >Description: {{ quiz.description }}</mat-card-subtitle
         >
         <mat-card-subtitle
-          >Questions: {{ quiz.questions?.length }}</mat-card-subtitle
+          >Questions: {{ quiz.questions.length }}</mat-card-subtitle
         >
       </div>
     </div>
@@ -23,7 +23,7 @@
   </mat-card-header>
 
   <mat-card-content>
-    <form [formGroup]="quizForm" (ngSubmit)="onSubmit()" *ngIf="!isSubmitted">
+    <form [formGroup]="quizForm" (ngSubmit)="submitQuiz()" *ngIf="!isSubmitted">
       <div formArrayName="answers">
         <div *ngFor="let question of quiz.questions; let i = index">
           <mat-card class="question-container">
@@ -78,7 +78,7 @@
           <div class="score-display">
             <h3>
               Your Score: {{ answerResponse.score }} /
-              {{ quiz.questions?.length }}
+              {{ quiz.questions.length }}
             </h3>
             <p *ngIf="answerResponse.passed" class="pass-fail pass">
               Congratulations! You passed!
@@ -87,7 +87,6 @@
               Keep trying! You'll do better next time.
             </p>
           </div>
-          <!-- End Score Display -->
         </mat-card-content>
         <div class="submit-button">
           <button mat-raised-button color="primary" (click)="closeQuiz()">

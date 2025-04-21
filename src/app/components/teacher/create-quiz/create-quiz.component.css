@@ -96,3 +96,17 @@ mat-card {
   margin-bottom: 1.6rem;
   font-size: 1.2rem;
 }
+
+.datetime-fields {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+}
+
+.datetime-fields .date-input {
+  flex: 2;
+}
+
+.datetime-fields .time-input {
+  flex: 1;
+}

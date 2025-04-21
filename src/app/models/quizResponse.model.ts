@@ -7,6 +7,7 @@ export interface QuizResponse {
   description?: string;
   createdAt: Date;
   isPublished: boolean;
+  startAt: Date;
   deletedAt: Date;
   createdBy?: {
     id: number;
