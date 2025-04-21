@@ -6,7 +6,7 @@ import { Router, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-home',
-  imports: [SharedMaterialModule, TeacherComponent, RouterOutlet],
+  imports: [SharedMaterialModule, RouterOutlet],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })

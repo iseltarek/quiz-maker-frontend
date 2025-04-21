@@ -1,7 +1,13 @@
 <div class="content">
-  <ul class="quiz-grid">
+  <ul class="quiz-grid" *ngIf="!isQuizOpen()">
     <li class="quiz-item" *ngFor="let quiz of allQuizzes()">
-      <app-quiz [quiz]="quiz"></app-quiz>
+      <app-quiz-card
+        (selectedQuizId)="handleQuizSelected($event)"
+        (quizOpened)="handleQuizOpen($event)"
+        [quiz]="quiz"
+      ></app-quiz-card>
     </li>
   </ul>
+
+  <app-quiz *ngIf="isQuizOpen()" [quizId]="quizId"></app-quiz>
 </div>

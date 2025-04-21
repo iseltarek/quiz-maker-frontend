@@ -1,0 +1,84 @@
+@if(quiz && quiz.questions) {
+<div class="quiz-container">
+  <mat-card-header class="quiz-header">
+    <div class="sub-header">
+      <mat-card-title>{{ quiz.title }}</mat-card-title>
+      <div class="sub">
+        <mat-card-subtitle
+          >Created by: {{ quiz.createdBy?.username }}</mat-card-subtitle
+        >
+        <mat-card-subtitle *ngIf="quiz.description"
+          >Description: {{ quiz.description }}</mat-card-subtitle
+        >
+        <mat-card-subtitle
+          >Questions: {{ quiz.questions?.length }}</mat-card-subtitle
+        >
+      </div>
+    </div>
+
+    <div class="timer" [class.warning]="timeLeft <= 120">
+      <mat-icon>timer</mat-icon>
+      {{ formatTime(timeLeft) }}
+    </div>
+  </mat-card-header>
+
+  <mat-card-content>
+    <form [formGroup]="quizForm" (ngSubmit)="onSubmit()" *ngIf="!isSubmitted">
+      <div formArrayName="answers">
+        <div *ngFor="let question of quiz.questions; let i = index">
+          <mat-card class="question-container">
+            <mat-card-header class="card-header">
+              {{ question.text }}
+            </mat-card-header>
+            <div [formGroupName]="i">
+              <div *ngIf="question.type === 'multiple_choice'">
+                <mat-radio-group formControlName="answer" class="radio">
+                  <mat-radio-button
+                    *ngFor="
+                      let option of question.options;
+                      let optionIndex = index
+                    "
+                    [value]="option"
+                    class="option-radio"
+                  >
+                    {{ option.text }}
+                  </mat-radio-button>
+                </mat-radio-group>
+              </div>
+
+              <div *ngIf="question.type === 'text'">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Your answer</mat-label>
+                  <textarea matInput formControlName="answer"></textarea>
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+      </div>
+
+      <div class="submit-button">
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="quizForm.invalid"
+        >
+          Submit Quiz
+        </button>
+      </div>
+    </form>
+
+    <div *ngIf="isSubmitted" class="submission-message">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Quiz Submitted!</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Your answers have been recorded.</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </mat-card-content>
+</div>
+}

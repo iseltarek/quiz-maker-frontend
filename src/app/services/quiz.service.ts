@@ -16,6 +16,7 @@ export class QuizService {
   constructor(public httpClient: HttpClient, public router: Router) {}
 
   public getAllQuizzes(): Observable<QuizResponse[]> {
+    console.log(this.userId);
     return this.httpClient.get<QuizResponse[]>(
       `${this.baseUrl}/student/${this.userId}/quiz`,
       {
