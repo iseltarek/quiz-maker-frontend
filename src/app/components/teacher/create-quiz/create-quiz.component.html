@@ -19,6 +19,31 @@
         <mat-label>Duration (minutes)</mat-label>
         <input matInput type="number" [(ngModel)]="quiz.duration" required />
       </mat-form-field>
+
+      <div class="datetime-fields">
+        <mat-form-field appearance="outline" class="date-input">
+          <mat-label>Start Date</mat-label>
+          <input
+            matInput
+            type="date"
+            [min]="today"
+            [(ngModel)]="datePart"
+            (change)="updateStartAt()"
+            required
+          />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="time-input">
+          <mat-label>Start Time</mat-label>
+          <input
+            matInput
+            type="time"
+            [(ngModel)]="timePart"
+            (change)="updateStartAt()"
+            required
+          />
+        </mat-form-field>
+      </div>
     </div>
 
     <div class="questions-container">

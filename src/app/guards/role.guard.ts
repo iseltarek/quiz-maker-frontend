@@ -7,7 +7,6 @@ export const RoleGuard: CanActivateFn = (route, state) => {
   const authSerivce = inject(AuthService);
   const isTeacher = authSerivce.getUserRole();
   if (isTeacher !== 'teacher') {
-    console.log(isTeacher);
     router.navigate(['/']);
     return false;
   }

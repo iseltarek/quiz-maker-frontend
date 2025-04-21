@@ -30,7 +30,11 @@ export class CreateQuizComponent {
     duration: 0,
     questions: [],
     is_published: false,
+    startAt: new Date(),
   };
+  today = new Date().toISOString().split('T')[0];
+  datePart = this.today;
+  timePart = '12:00';
   errorMessage = signal<string>('');
   @Output() IsCreateQuiz = new EventEmitter<boolean>();
   constructor(
@@ -63,14 +67,25 @@ export class CreateQuizComponent {
     this.questions.push(newQuestion);
   }
 
+  updateStartAt() {
+    if (this.datePart && this.timePart) {
+      const [year, month, day] = this.datePart.split('-').map(Number);
+      const [hours, minutes] = this.timePart.split(':').map(Number);
+      this.quiz.startAt = new Date(year, month - 1, day, hours, minutes);
+    }
+  }
+
   submitQuiz() {
+    this.updateStartAt();
     const newQuiz = {
       title: this.quiz.title,
       description: this.quiz.description,
       duration: this.quiz.duration,
       questions: this.questions,
       is_published: true,
+      startAt: this.quiz.startAt,
     };
+
     this.teacherService.createQuiz(newQuiz).subscribe({
       next: (quizResponse) => {
         this.quizStoreService.addTeacherQuiz(quizResponse);
@@ -90,6 +105,7 @@ export class CreateQuizComponent {
       duration: 0,
       questions: [],
       is_published: false,
+      startAt: new Date(),
     };
   }
 }

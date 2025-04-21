@@ -36,7 +36,6 @@ export class QuizService {
     answers: Answer[],
     quizId: number
   ): Observable<AnswerResponse> {
-    console.log(answers);
     return this.httpClient.post<AnswerResponse>(
       `${this.baseUrl}/student/${this.userId}/quiz/${quizId}/submit`,
       answers,

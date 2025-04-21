@@ -23,6 +23,7 @@ import { AnswerResponse } from '../../../models/answerResponse.model';
 export class QuizComponent implements OnInit {
   quiz!: QuizResponse;
   quizForm!: FormGroup;
+  intervalId: any;
   timeLeft!: number;
   isSubmitted = false;
   answerResponse: AnswerResponse = {
@@ -38,12 +39,14 @@ export class QuizComponent implements OnInit {
         next: (quizResponse) => {
           this.quiz = quizResponse;
           this.initializeForm();
+          this.timeLeft = this.quiz.duration * 60;
           this.startTimer();
         },
       });
     }
     // document.addEventListener('keydown', this.preventScreenshot);
   }
+
   private initializeForm() {
     this.quizForm = this.fb.group({
       answers: this.fb.array([]),
@@ -53,6 +56,7 @@ export class QuizComponent implements OnInit {
       this.addQuestionToForm(question);
     });
   }
+
   private addQuestionToForm(question: QuestionResponse) {
     const answers = this.quizForm.get('answers') as FormArray;
 
@@ -64,18 +68,16 @@ export class QuizComponent implements OnInit {
       })
     );
   }
+
   private startTimer() {
-    // this.timeLeft = this.quiz.duration * 60; // Convert minutes to seconds
-    // this.timerSubscription = this.timerService
-    //   .startTimer(this.timeLeft)
-    //   .subscribe({
-    //     next: (remainingTime) => {
-    //       this.timeLeft = remainingTime;
-    //       if (remainingTime === 0) {
-    //         this.onSubmit();
-    //       }
-    //     },
-    //   });
+    this.intervalId = setInterval(() => {
+      if (this.timeLeft > 0) {
+        this.timeLeft--;
+      } else {
+        clearInterval(this.intervalId);
+        this.submitQuiz();
+      }
+    }, 1000);
   }
 
   formatTime(seconds: number): string {
@@ -84,8 +86,8 @@ export class QuizComponent implements OnInit {
     return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
   }
 
-  onSubmit() {
-    if (this.quizForm.valid && !this.isSubmitted) {
+  submitQuiz() {
+    if (!this.isSubmitted) {
       const answers = this.quizForm.value.answers;
       this.quizService.submitQuiz(answers, this.quiz.id).subscribe({
         next: (results) => {
