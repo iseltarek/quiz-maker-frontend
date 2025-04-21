@@ -4,9 +4,13 @@ export interface QuizResponse {
   id: number;
   title: string;
   duration: number;
-  describtion?: string;
+  description?: string;
   createdAt: Date;
   isPublished: boolean;
   deletedAt: Date;
+  createdBy?: {
+    id: number;
+    username: string;
+  };
   questions?: QuestionResponse[];
 }

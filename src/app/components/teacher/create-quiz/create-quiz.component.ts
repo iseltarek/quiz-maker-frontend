@@ -28,7 +28,7 @@ export class CreateQuizComponent {
     title: '',
     description: '',
     duration: 0,
-    questionsIds: [],
+    questions: [],
     is_published: false,
   };
   errorMessage = signal<string>('');
@@ -64,23 +64,19 @@ export class CreateQuizComponent {
   }
 
   submitQuiz() {
-    this.teacherService.createManyQuestion(this.questions).subscribe({
-      next: (questionIds) => {
-        const newQuiz = {
-          title: this.quiz.title,
-          description: this.quiz.description,
-          duration: this.quiz.duration,
-          questionsIds: questionIds,
-          is_published: true,
-        };
-        this.teacherService.createQuiz(newQuiz).subscribe({
-          next: (quizResponse) => {
-            this.quizStoreService.addTeacherQuiz(quizResponse);
-            this.IsCreateQuiz.emit(false);
-            this.questions = [];
-            this.resetQuizForm();
-          },
-        });
+    const newQuiz = {
+      title: this.quiz.title,
+      description: this.quiz.description,
+      duration: this.quiz.duration,
+      questions: this.questions,
+      is_published: true,
+    };
+    this.teacherService.createQuiz(newQuiz).subscribe({
+      next: (quizResponse) => {
+        this.quizStoreService.addTeacherQuiz(quizResponse);
+        this.IsCreateQuiz.emit(false);
+        this.questions = [];
+        this.resetQuizForm();
       },
       error: (err) => this.errorMessage.set(err.error.message),
     });
@@ -92,7 +88,7 @@ export class CreateQuizComponent {
       title: '',
       description: '',
       duration: 0,
-      questionsIds: [],
+      questions: [],
       is_published: false,
     };
   }

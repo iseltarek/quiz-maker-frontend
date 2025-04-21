@@ -68,10 +68,13 @@ export class AuthService {
     const user = JSON.parse(userString);
     return user.id;
   }
-  public getUserRole() {
-    const userString = localStorage.getItem(this.USER_DATA_KEY);
-    if (!userString) return null;
-    const user = JSON.parse(userString);
-    return user.role;
+  public getUserRole(): string | null {
+    if (typeof window !== 'undefined' && localStorage) {
+      const userString = localStorage.getItem(this.USER_DATA_KEY);
+      if (!userString) return null;
+      const user = JSON.parse(userString);
+      return user.role;
+    }
+    return null;
   }
 }

@@ -6,12 +6,16 @@ import { Router, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-home',
-  imports: [SharedMaterialModule, TeacherComponent, RouterOutlet],
+  imports: [SharedMaterialModule, RouterOutlet],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
 export class HomeComponent {
-  constructor(private authService: AuthService, private router: Router) {}
+  role: string | null = '';
+  constructor(private authService: AuthService, private router: Router) {
+    this.role = this.authService.getUserRole();
+  }
+
   logout() {
     this.router.navigate(['/']);
     this.authService.logout();

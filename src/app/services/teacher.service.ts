@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { QuizResponse } from '../models/quizResponse.model';
 import { QuizRequest } from '../models/quizRequest.model';
 import { QuestionRequest } from '../models/questionRequest.model';
+import { error } from 'console';
 
 @Injectable({
   providedIn: 'root',

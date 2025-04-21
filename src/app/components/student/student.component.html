@@ -1,8 +1,17 @@
 <div class="content">
-  <ul class="tasks-grid">
-    <li
-      class="task-item"
-      *ngFor="let task of tasks(); trackBy: trackByCustomId"
-    ></li>
+  <ul class="quiz-grid" *ngIf="!isQuizOpen()">
+    <li class="quiz-item" *ngFor="let quiz of allQuizzes()">
+      <app-quiz-card
+        (selectedQuizId)="handleQuizSelected($event)"
+        (quizOpened)="handleQuiz($event)"
+        [quiz]="quiz"
+      ></app-quiz-card>
+    </li>
   </ul>
+
+  <app-quiz
+    *ngIf="isQuizOpen()"
+    (isQuizClosed)="handleQuiz($event)"
+    [quizId]="quizId"
+  ></app-quiz>
 </div>
