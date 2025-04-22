@@ -1,0 +1,112 @@
+.quiz-form {
+  max-width: 80rem; /* 800px */
+  margin: 0 auto;
+  padding: 2rem;
+  font-size: 1.2rem; /* smaller base font */
+}
+
+.header {
+  text-align: left; /* top-left instead of center */
+  margin-bottom: 2rem;
+}
+
+.header h2 {
+  font-size: 2rem; /* 20px */
+  color: #3f51b5;
+  font-weight: 500;
+  margin: 0;
+}
+
+.metadata {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  margin-bottom: 2rem;
+  align-items: center;
+}
+
+.metadata .input {
+  flex: 1 1 30%; /* make them fit in the same row when possible */
+  min-width: 20rem;
+}
+
+.questions-container {
+  margin-top: 2rem;
+  font-size: 1.2rem;
+}
+
+.question-type-selector {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  font-size: 1.2rem;
+}
+
+.question-card {
+  margin-bottom: 1.5rem;
+}
+
+.question-card mat-card {
+  border-left: 0.4rem solid #3f51b5;
+}
+
+.delete-btn {
+  margin-left: auto;
+}
+
+.option-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.8rem;
+  font-size: 1.2rem;
+}
+
+.option-input {
+  flex: 1;
+  margin-left: 0.8rem;
+}
+
+.add-option-btn {
+  margin-top: 1rem;
+  font-size: 1.2rem;
+}
+
+.add-question-btn {
+  margin-top: 1.6rem;
+  width: 100%;
+  font-size: 1.4rem;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 2.4rem;
+}
+
+.submit-btn {
+  padding: 0.8rem 3.2rem;
+  font-size: 1.4rem;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+mat-card {
+  margin-bottom: 1.6rem;
+  font-size: 1.2rem;
+}
+
+.datetime-fields {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+}
+
+.datetime-fields .date-input {
+  flex: 2;
+}
+
+.datetime-fields .time-input {
+  flex: 1;
+}

@@ -1,0 +1,161 @@
+<div class="quiz-form">
+  <div class="header">
+    <h2>Create New Quiz</h2>
+  </div>
+
+  <main>
+    <div class="metadata">
+      <mat-form-field appearance="outline" class="title input">
+        <mat-label>Quiz Title</mat-label>
+        <input matInput type="text" [(ngModel)]="quiz.title" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="description input">
+        <mat-label>Quiz Description</mat-label>
+        <textarea matInput [(ngModel)]="quiz.description"></textarea>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="duration input">
+        <mat-label>Duration (minutes)</mat-label>
+        <input matInput type="number" [(ngModel)]="quiz.duration" required />
+      </mat-form-field>
+
+      <div class="datetime-fields">
+        <mat-form-field appearance="outline" class="date-input">
+          <mat-label>Start Date</mat-label>
+          <input
+            matInput
+            type="date"
+            [min]="today"
+            [(ngModel)]="datePart"
+            (change)="updateStartAt()"
+            required
+          />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="time-input">
+          <mat-label>Start Time</mat-label>
+          <input
+            matInput
+            type="time"
+            [(ngModel)]="timePart"
+            (change)="updateStartAt()"
+            required
+          />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="questions-container">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Questions</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          <mat-radio-group
+            [(ngModel)]="currentQuestionType"
+            class="question-type-selector"
+          >
+            <mat-radio-button value="text" color="primary"
+              >Text Answer</mat-radio-button
+            >
+            <mat-radio-button value="multiple_choice" color="primary"
+              >Multiple Choice</mat-radio-button
+            >
+          </mat-radio-group>
+
+          <div
+            *ngFor="let question of questions; let i = index"
+            class="question-card"
+          >
+            <mat-card>
+              <mat-card-header>
+                <mat-card-title>Question {{ i + 1 }}</mat-card-title>
+                <button
+                  mat-icon-button
+                  (click)="removeQuestion(i)"
+                  class="delete-btn"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </mat-card-header>
+
+              <mat-card-content>
+                <mat-form-field appearance="outline" class="question-text">
+                  <mat-label>Question Text</mat-label>
+                  <input matInput [(ngModel)]="question.text" required />
+                </mat-form-field>
+
+                <div *ngIf="question.type === 'text'" class="text-answer">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Correct Answer</mat-label>
+                    <input
+                      matInput
+                      [(ngModel)]="question.correctAnswer"
+                      required
+                    />
+                  </mat-form-field>
+                </div>
+
+                <div
+                  *ngIf="question.type === 'multiple_choice'"
+                  class="multiple-choice"
+                >
+                  <div
+                    *ngFor="let option of question.options; let j = index"
+                    class="option-row"
+                  >
+                    <mat-checkbox
+                      [(ngModel)]="option.is_correct"
+                      color="primary"
+                    >
+                      <mat-form-field appearance="outline" class="option-input">
+                        <input
+                          matInput
+                          [(ngModel)]="option.text"
+                          placeholder="Option {{ j + 1 }}"
+                          required
+                        />
+                      </mat-form-field>
+                    </mat-checkbox>
+                  </div>
+                  <button
+                    mat-button
+                    (click)="addOption(question)"
+                    class="add-option-btn"
+                  >
+                    <mat-icon>add</mat-icon> Add Option
+                  </button>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="addQuestion()"
+            class="add-question-btn"
+          >
+            <mat-icon>add</mat-icon> Add Question
+          </button>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </main>
+
+  @if(errorMessage()){
+  <mat-error>{{ errorMessage.toString() }}</mat-error>
+  }
+  <div class="actions">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="submitQuiz()"
+      class="submit-btn"
+    >
+      Save Quiz
+    </button>
+  </div>
+</div>

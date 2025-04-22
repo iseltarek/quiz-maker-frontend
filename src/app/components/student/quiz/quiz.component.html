@@ -1,0 +1,119 @@
+@if(quiz && quiz.questions){
+<div class="quiz-container">
+  <mat-card-header class="quiz-header">
+    <div class="sub-header">
+      <mat-card-title>{{ quiz.title }}</mat-card-title>
+      <div class="sub">
+        <mat-card-subtitle
+          >Created by: {{ quiz.createdBy?.username }}</mat-card-subtitle
+        >
+        <mat-card-subtitle *ngIf="quiz.description"
+          >Description: {{ quiz.description }}</mat-card-subtitle
+        >
+        <mat-card-subtitle
+          >Questions: {{ quiz.questions?.length }}</mat-card-subtitle
+        >
+      </div>
+    </div>
+
+    <div class="timer" [class.warning]="timeLeft <= 120">
+      <mat-icon>timer</mat-icon>
+      {{ formatTime(timeLeft) }}
+    </div>
+  </mat-card-header>
+
+  <mat-card-content>
+    <form [formGroup]="quizForm" (ngSubmit)="submitQuiz()" *ngIf="!isSubmitted">
+      <div formArrayName="answers">
+        <div *ngFor="let question of quiz.questions; let i = index">
+          <mat-card class="question-container">
+            <mat-card-header class="card-header">
+              {{ question.text }}
+            </mat-card-header>
+            <div [formGroupName]="i">
+              <div *ngIf="question.type === 'multiple_choice'">
+                <mat-radio-group formControlName="answer" class="radio">
+                  <mat-radio-button
+                    *ngFor="
+                      let option of question.options;
+                      let optionIndex = index
+                    "
+                    [value]="option.text"
+                    class="option-radio"
+                  >
+                    {{ option.text }}
+                  </mat-radio-button>
+                </mat-radio-group>
+              </div>
+
+              <div *ngIf="question.type === 'text'">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Your answer</mat-label>
+                  <textarea matInput formControlName="answer"></textarea>
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+      </div>
+
+      <div class="submit-button">
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="quizForm.invalid"
+        >
+          Submit Quiz
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</div>
+} @if(isSubmitted || quizError) {
+<div *ngIf="isSubmitted || quizError" class="submission-message">
+  <mat-card class="sumitted">
+    <mat-card-header>
+      <mat-card-title>
+        {{
+          quizError
+            ? "You have already submitted this quiz."
+            : "Quiz Submitted!"
+        }}
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      @if(!quizError){
+      <div class="score-display">
+        <h3>
+          Your Score: {{ answerResponse.score }} /
+          {{ quiz.questions?.length }}
+        </h3>
+        <p *ngIf="answerResponse.passed" class="pass-fail pass">
+          Congratulations! You passed!
+        </p>
+        <p *ngIf="!answerResponse.passed" class="pass-fail fail">
+          Keep trying! You'll do better next time.
+        </p>
+      </div>
+      } @else {
+      <div class="score-display">
+        <h3>
+          Your Score: {{ quizError.score }} /
+          {{ quizError.numberOfQuestions }}
+        </h3>
+        <p *ngIf="quizError.passed" class="pass-fail pass">You passed!</p>
+        <p *ngIf="!quizError.passed" class="pass-fail fail">
+          You'll do better next time.
+        </p>
+      </div>
+      }
+      <div class="submit-button">
+        <button mat-raised-button color="primary" (click)="closeQuiz()">
+          Back to DashBoard
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+}
