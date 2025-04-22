@@ -46,11 +46,11 @@ export class TeacherComponent {
     this.IsCreateQuiz.set(true);
   }
 
-  deleteQuiz(quizId: number) {
-    this.teacherService.deleteQuiz(quizId).subscribe({
-      next: () => {
-        this.quizzesStoreService.deleteTeacherQuiz(quizId);
-      },
-    });
-  }
+  // deleteQuiz(quizId: number) {
+  //   this.teacherService.deleteQuiz(quizId).subscribe({
+  //     next: () => {
+  //       this.quizzesStoreService.deleteTeacherQuiz(quizId);
+  //     },
+  //   });
+  // }
 }

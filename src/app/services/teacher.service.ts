@@ -27,6 +27,7 @@ export class TeacherService {
   }
 
   public createQuiz(quizRequest: QuizRequest): Observable<QuizResponse> {
+    console.log(this.teacherId);
     return this.httpClient.post<QuizResponse>(
       `${this.baseUrl}/${this.teacherId}/quiz`,
       quizRequest,
