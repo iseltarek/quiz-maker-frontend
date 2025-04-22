@@ -13,6 +13,7 @@ import {
 import { Subscription } from 'rxjs';
 import { QuestionResponse } from '../../../models/questionResponse.model';
 import { AnswerResponse } from '../../../models/answerResponse.model';
+import { QuizError } from '../../../models/quizError.model';
 
 @Component({
   selector: 'app-quiz',
@@ -22,6 +23,7 @@ import { AnswerResponse } from '../../../models/answerResponse.model';
 })
 export class QuizComponent implements OnInit {
   quiz!: QuizResponse;
+  quizError!: QuizError;
   quizForm!: FormGroup;
   intervalId: any;
   timeLeft!: number;
@@ -30,6 +32,7 @@ export class QuizComponent implements OnInit {
     score: 0,
     passed: false,
   };
+
   @Input() quizId!: number;
   @Output() isQuizClosed = new EventEmitter<boolean>();
   constructor(private quizService: QuizService, private fb: FormBuilder) {}
@@ -42,9 +45,13 @@ export class QuizComponent implements OnInit {
           this.timeLeft = this.quiz.duration * 60;
           this.startTimer();
         },
+        error: (err) => {
+          this.quizError = err.error;
+          this.isSubmitted = true;
+        },
       });
     }
-    // document.addEventListener('keydown', this.preventScreenshot);
+    document.addEventListener('keydown', this.preventScreenshot);
   }
 
   private initializeForm() {
@@ -101,19 +108,20 @@ export class QuizComponent implements OnInit {
   closeQuiz() {
     this.isQuizClosed.emit(false);
   }
-  // ngOnDestroy() {
-  //   document.removeEventListener('keydown', this.preventScreenshot);
-  // }
-  // private preventScreenshot(e: KeyboardEvent) {
-  //   if (
-  //     e.key === 'PrintScreen' ||
-  //     e.code === '44' ||
-  //     (e.ctrlKey && e.key === 'p') ||
-  //     (e.ctrlKey && e.shiftKey && e.key === 's')
-  //   ) {
-  //     e.preventDefault();
-  //     alert('do not try to take any kinds of screenshot of the content');
-  //     return false;
-  //   }
-  // }
+  ngOnDestroy() {
+    document.removeEventListener('keydown', this.preventScreenshot);
+  }
+  private preventScreenshot(e: KeyboardEvent) {
+    if (
+      e.key === 'PrintScreen' ||
+      e.code === '44' ||
+      (e.ctrlKey && e.key === 'p') ||
+      (e.ctrlKey && e.shiftKey && e.key === 's')
+    ) {
+      e.preventDefault();
+      alert('do not try to take any kinds of screenshot of the content');
+      return false;
+    }
+    return true;
+  }
 }

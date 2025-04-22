@@ -57,10 +57,13 @@ export class AuthService {
     this.isAuthenticatedUserSubject.next(false);
   }
   public isUserAuthenticated(): boolean {
-    return (
-      this.isAuthenticatedUserSubject.value ||
-      !!localStorage.getItem(this.TOKEN_KEY)
-    );
+    if (typeof localStorage !== 'undefined') {
+      return (
+        this.isAuthenticatedUserSubject.value ||
+        !!localStorage.getItem(this.TOKEN_KEY)
+      );
+    }
+    return false;
   }
   public getUserId(): number | null {
     const userString = localStorage.getItem(this.USER_DATA_KEY);

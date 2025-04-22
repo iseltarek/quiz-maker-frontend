@@ -58,4 +58,7 @@ li {
   margin-bottom: 0.3rem;
   border-bottom: 1px solid #eee;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
