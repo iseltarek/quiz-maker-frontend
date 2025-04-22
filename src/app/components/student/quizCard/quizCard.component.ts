@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { SharedMaterialModule } from '../../../modules/shared-material.module';
 import { QuizResponse } from '../../../models/quizResponse.model';
 import { CommonModule } from '@angular/common';
@@ -14,18 +21,37 @@ export class QuizCardComponent implements OnInit {
   @Output() quizOpened = new EventEmitter<boolean>();
   @Output() selectedQuizId = new EventEmitter<number>();
   availabilityCheck: any;
+  nextCheckTimer: any;
+  constructor(private cdr: ChangeDetectorRef) {}
   ngOnInit(): void {
-    if (this.quiz) {
-      this.availabilityCheck = setInterval(() => {
-        this.updateQuizAvailability();
-      }, 60000);
+    this.checkAvailability();
+    this.setupAutoCheck();
+  }
+
+  private checkAvailability() {
+    this.quiz.isPublished = new Date(this.quiz.startAt) <= new Date();
+
+    if (!this.quiz.isPublished) {
+      const timeUntilAvailable =
+        new Date(this.quiz.startAt).getTime() - Date.now();
+      if (timeUntilAvailable > 0) {
+        clearTimeout(this.nextCheckTimer);
+        this.nextCheckTimer = setTimeout(
+          () => this.checkAvailability(),
+          timeUntilAvailable
+        );
+      }
     }
   }
-  private updateQuizAvailability() {
-    if (this.quiz.startAt <= new Date()) {
-      this.quiz.isPublished = true;
-    }
+
+  private setupAutoCheck() {
+    const interval = setInterval(() => {
+      this.checkAvailability();
+    }, 60000);
+
+    return () => clearInterval(interval);
   }
+
   startQuiz() {
     this.selectedQuizId.emit(this.quiz.id);
     this.quizOpened.emit(true);

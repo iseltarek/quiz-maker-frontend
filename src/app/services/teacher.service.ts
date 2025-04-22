@@ -63,6 +63,14 @@ export class TeacherService {
     );
   }
 
+  public deleteQuiz(quizId: number): Observable<string> {
+    return this.httpClient.delete<string>(
+      `${this.baseUrl}/${this.teacherId}/quiz/${quizId}`,
+      {
+        headers: this.getAuthHeader(),
+      }
+    );
+  }
   private getAuthHeader(): HttpHeaders {
     const token = localStorage.getItem(this.authSerivce.TOKEN_KEY);
     return new HttpHeaders({

@@ -1,4 +1,4 @@
-@if(quiz && quiz.questions) {
+@if(quiz && quiz.questions){
 <div class="quiz-container">
   <mat-card-header class="quiz-header">
     <div class="sub-header">
@@ -11,7 +11,7 @@
           >Description: {{ quiz.description }}</mat-card-subtitle
         >
         <mat-card-subtitle
-          >Questions: {{ quiz.questions.length }}</mat-card-subtitle
+          >Questions: {{ quiz.questions?.length }}</mat-card-subtitle
         >
       </div>
     </div>
@@ -68,33 +68,52 @@
         </button>
       </div>
     </form>
-
-    <div *ngIf="isSubmitted" class="submission-message">
-      <mat-card class="sumitted">
-        <mat-card-header>
-          <mat-card-title>Quiz Submitted!</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <div class="score-display">
-            <h3>
-              Your Score: {{ answerResponse.score }} /
-              {{ quiz.questions.length }}
-            </h3>
-            <p *ngIf="answerResponse.passed" class="pass-fail pass">
-              Congratulations! You passed!
-            </p>
-            <p *ngIf="!answerResponse.passed" class="pass-fail fail">
-              Keep trying! You'll do better next time.
-            </p>
-          </div>
-        </mat-card-content>
-        <div class="submit-button">
-          <button mat-raised-button color="primary" (click)="closeQuiz()">
-            Back to DashBoard
-          </button>
-        </div>
-      </mat-card>
-    </div>
   </mat-card-content>
+</div>
+} @if(isSubmitted || quizError) {
+<div *ngIf="isSubmitted || quizError" class="submission-message">
+  <mat-card class="sumitted">
+    <mat-card-header>
+      <mat-card-title>
+        {{
+          quizError
+            ? "You have already submitted this quiz."
+            : "Quiz Submitted!"
+        }}
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      @if(!quizError){
+      <div class="score-display">
+        <h3>
+          Your Score: {{ answerResponse.score }} /
+          {{ quiz.questions?.length }}
+        </h3>
+        <p *ngIf="answerResponse.passed" class="pass-fail pass">
+          Congratulations! You passed!
+        </p>
+        <p *ngIf="!answerResponse.passed" class="pass-fail fail">
+          Keep trying! You'll do better next time.
+        </p>
+      </div>
+      } @else {
+      <div class="score-display">
+        <h3>
+          Your Score: {{ quizError.score }} /
+          {{ quizError.numberOfQuestions }}
+        </h3>
+        <p *ngIf="quizError.passed" class="pass-fail pass">You passed!</p>
+        <p *ngIf="!quizError.passed" class="pass-fail fail">
+          You'll do better next time.
+        </p>
+      </div>
+      }
+      <div class="submit-button">
+        <button mat-raised-button color="primary" (click)="closeQuiz()">
+          Back to DashBoard
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>
 }

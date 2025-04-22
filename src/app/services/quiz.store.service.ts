@@ -16,7 +16,11 @@ export class QuizStoreService {
   public addTeacherQuiz(quiz: QuizResponse) {
     this._teacherQuizzes.update((quizz) => [...quizz, quiz]);
   }
-
+  public deleteTeacherQuiz(quizId: number) {
+    this._teacherQuizzes.update((quizzes) =>
+      quizzes.filter((quiz) => quiz.id !== quizId)
+    );
+  }
   public resetTeacherQuizzes() {
     this._teacherQuizzes.set([]);
   }

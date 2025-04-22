@@ -5,10 +5,11 @@ import { QuizStoreService } from '../../services/quiz.store.service';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { CreateQuizComponent } from './create-quiz/create-quiz.component';
+import { SharedMaterialModule } from '../../modules/shared-material.module';
 
 @Component({
   selector: 'app-teacher',
-  imports: [CommonModule, CreateQuizComponent],
+  imports: [CommonModule, CreateQuizComponent, SharedMaterialModule],
   templateUrl: './teacher.component.html',
   styleUrl: './teacher.component.css',
 })
@@ -43,5 +44,13 @@ export class TeacherComponent {
 
   createQuiz() {
     this.IsCreateQuiz.set(true);
+  }
+
+  deleteQuiz(quizId: number) {
+    this.teacherService.deleteQuiz(quizId).subscribe({
+      next: () => {
+        this.quizzesStoreService.deleteTeacherQuiz(quizId);
+      },
+    });
   }
 }

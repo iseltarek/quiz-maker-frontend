@@ -4,7 +4,17 @@
     <div class="quiz-list">
       <h3>MY QUIZZES</h3>
       <ul class="list" *ngFor="let quiz of quizzes">
-        <li>{{ quiz.title }}</li>
+        <li>
+          {{ quiz.title }}
+          <button
+            mat-icon-button
+            color="warn"
+            aria-label="Delete quiz"
+            (click)="deleteQuiz(quiz.id)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </li>
       </ul>
     </div>
   </div>
